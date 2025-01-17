@@ -47,7 +47,7 @@ Feel free to edit and use this tool according to your needs. Customize the LaTeX
 
 # Getting Started
 
-Below are two installation methods to set up and use CV Tools on your local machine. The Docker-based setup is recommended for a hassle-free experience, but you can also set up manually from the source if you prefer.
+Below are two installation methods to set up and use CV Tools on your local machine. The Docker-based setup is recommended for a hassle-free experience. Alternatively, you can set up the tool manually from the source, which offers flexibility to either compile the PDF locally or generate the .tex file and use an external LaTeX renderer like [Overleaf](https://www.overleaf.com).
 
 ## Installation
 
@@ -84,41 +84,45 @@ The `-v $(pwd):/workdir` option mounts your local cv-tools directory to the `/wo
 
 ### Method 2: From Source with Manual Installation
 
-If you prefer to set up the environment manually on your local machine, follow the steps below.
+If you prefer to set up the environment manually on your local machine, follow the steps below. This method offers two options:
+
+1. Use an external LaTeX renderer (e.g., [Overleaf](https://www.overleaf.com)) to compile the .tex file.
+2. Install a LaTeX engine locally and generate the PDF directly.
 
 #### Prerequisites
 
-- **LaTeX Distribution**: Ensure you have a LaTeX distribution installed. For instance, [TeX Live](https://www.tug.org/texlive/) (recommended) or [MikTeX](https://miktex.org/).
+- **Option 1: External LaTeX Renderer**
+
+  No LaTeX distribution is needed. You can generate the .tex file and upload it to tools like [Overleaf](https://www.overleaf.com).
+- **Option 2: Local LaTeX Setup**
+
+  Ensure you have a LaTeX distribution installed, such as [TeX Live](https://www.tug.org/texlive/) (recommended) or [MikTeX](https://miktex.org/).
+
 - **Python**: Python 3.x is required for running the build scripts.
 
 #### Installing Dependencies
-
-Depending on your installed LaTeX distribution, you may need to ensure that all the required LaTeX packages are installed. A list of these necessary packages can be found in the `packages.list` file.
-
-You can use the tlmgr command to install the packages as follows:
-
-```bash
-$ tlmgr install <package1> <package2> ...
-```
-
-To manage your Python dependencies, it's recommended to use a virtual environment:
-
-```bash
-$ python3 -m venv cv-tools
-$ source cv-tools/bin/activate
-```
-
-Install the required Python packages using requirements.txt:
-
-```bash
-$ pip install -r requirements.txt
-```
 
 Clone the Repository:
 
 ```bash
 $ git clone https://github.com/mlsdpk/cv-tools.git
 $ cd cv-tools
+```
+
+Set up a Python virtual environment and install dependencies:
+
+```bash
+$ python3 -m venv cv-tools
+$ source cv-tools/bin/activate
+$ pip install -r requirements.txt
+```
+
+If you plan to use Option 2 (Local LaTeX Setup), ensure all required LaTeX packages are installed. The necessary packages are listed in the `packages.list` file.
+
+You can use the tlmgr command to install the packages as follows:
+
+```bash
+$ tlmgr install <package1> <package2> ...
 ```
 
 ## Usage
@@ -134,6 +138,23 @@ $ ./run.sh
 ```
 
 This command will also check and install all necessary dependencies before generating a `.tex` file and a PDF file, both of which will be saved in the `output` directory.
+
+### For Users Without a LaTeX Engine Installed
+
+> Note: If you are using the Docker-based setup, you can ignore this section as the PDF will be generated within the container automatically.
+
+If you don’t have a LaTeX engine installed locally, you can use the `--tex-only` option to generate the files required for an external LaTeX renderer:
+
+```bash
+$ ./run.sh --tex-only
+```
+
+This will generate the following files in the output directory:
+
+- `output.tex`: The main LaTeX source file.
+- `resume.cls`: The LaTeX class file required to compile the CV.
+
+Upload both files to an external LaTeX renderer such as [Overleaf](https://www.overleaf.com) to produce the final PDF.
 
 ## Customize the CV Generation
 

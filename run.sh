@@ -27,6 +27,7 @@ usage() {
     info "Usage: $0 [-c config_file] [-b bibtex_file] [-o output_file]"
     info "  -c, --config   Specify the configuration YAML file (default: config/cv.yaml)"
     info "  -b, --bibtex   Specify the BibTeX file (default: config/publications.bib)"
+    info "  --tex-only     Only generate the LaTeX (.tex) file without producing a PDF"
     info "  --no-deps      Skip checking and installing dependencies"
     info "  -o, --output   Specify the output LaTeX file (default: output/output.tex)"
     info "  -h, --help     Display this help message and exit"
@@ -96,6 +97,9 @@ SCRIPT_DIR="$CURRENT_DIR/scripts"
 OUTPUT_DIR="$CURRENT_DIR/output"
 OUTPUT_FILE="$OUTPUT_DIR/output.tex"
 
+# Default value for only generating tex source file
+GENERATE_TEX_ONLY=0
+
 # Default value for skipping dependency installation
 SKIP_DEPS_INSTALL=0
 
@@ -109,6 +113,9 @@ while [[ "$1" != "" ]]; do
         -b | --bibtex )
             shift
             BIBTEX_FILE="$1"
+            ;;
+        --tex-only )
+            GENERATE_TEX_ONLY=1
             ;;
         --no-deps )
             SKIP_DEPS_INSTALL=1
@@ -131,68 +138,6 @@ done
 
 # Start of the script
 info "Intializing the script..."
-
-# If --no-deps-install is not set, check dependencies
-if [ "$SKIP_DEPS_INSTALL" -eq 0 ]; then
-
-    info "Verifying required libraries and dependencies..."
-
-    # Check if LaTeX is installed
-    if command_exists pdflatex; then
-        success "pdflatex found."
-    else
-        error "Error: command pdflatex not found." 
-        error "LaTeX is not installed. Please install LaTeX (e.g., TeX Live) to proceed."
-        exit 1
-    fi
-
-    # Check if Python is installed
-    if ! command_exists python; then
-        error "Error: python is not installed. Please install python to proceed."
-        exit 1
-    fi
-
-    # Check if Python version is 3.x
-    PYTHON_VERSION=$(python -c 'import sys; version=sys.version_info[:3]; print("{0}.{1}".format(*version))')
-    if [[ ! $PYTHON_VERSION =~ ^3\.[0-9]+$ ]]; then
-        error "Error: python version 3.x is required. Detected python version: $PYTHON_VERSION"
-        exit 1
-    fi
-
-    # Output Python version and location
-    PYTHON_PATH=$(command -v python)
-    success "python found. Using python version $PYTHON_VERSION from $PYTHON_PATH"
-
-    # Check and install required Python packages from requirements.txt
-    info "Checking for required Python packages..."
-    if [ -f "$CURRENT_DIR/requirements.txt" ]; then
-        pip install -r $CURRENT_DIR/requirements.txt
-        if [ $? -eq 0 ]; then
-            success "All required Python packages have been installed."
-        else
-            error "Failed to install required Python packages."
-            exit 1
-        fi
-    else
-        error "requirements.txt file not found."
-        exit 1
-    fi
-
-    # Read and install required LaTeX packages
-    LATEX_PACKAGE_FILE="$CURRENT_DIR/packages.list"
-    if [ -f "$LATEX_PACKAGE_FILE" ]; then
-        info "Verifying required LaTeX packages..."
-        check_latex_packages_from_file "$LATEX_PACKAGE_FILE"
-    else
-        error "LaTeX package file not found: $LATEX_PACKAGE_FILE"
-        exit 1
-    fi
-
-    # Notify the user that all dependencies are satisfied
-    success "All required libraries and dependencies have been verified and installed."
-else
-    info "Skipping dependency checks and installations."
-fi
 
 # Create the output directory if it doesn't exist
 info "Creating output directory..."
@@ -217,14 +162,78 @@ fi
 success "LaTeX CV generation complete. Output saved to $OUTPUT_FILE"
 
 # Compile the LaTeX file to PDF
-info "Compiling LaTeX to PDF..."
-cd "$OUTPUT_DIR" && pdflatex "$(basename "$OUTPUT_FILE")"
+if [ "$GENERATE_TEX_ONLY" -eq 0 ]; then
+    # If --no-deps-install is not set, check dependencies
+    if [ "$SKIP_DEPS_INSTALL" -eq 0 ]; then
 
-if [ $? -eq 0 ]; then
-    success "PDF generation complete. Output saved to ${OUTPUT_FILE%.tex}.pdf"
-else
-    error "Error during PDF compilation."
-    exit 1
+        info "Verifying required libraries and dependencies..."
+
+        # Check if LaTeX is installed
+        if command_exists pdflatex; then
+            success "pdflatex found."
+        else
+            error "Error: command pdflatex not found." 
+            error "LaTeX is not installed. Please install LaTeX (e.g., TeX Live) to proceed."
+            exit 1
+        fi
+
+        # Check if Python is installed
+        if ! command_exists python; then
+            error "Error: python is not installed. Please install python to proceed."
+            exit 1
+        fi
+
+        # Check if Python version is 3.x
+        PYTHON_VERSION=$(python -c 'import sys; version=sys.version_info[:3]; print("{0}.{1}".format(*version))')
+        if [[ ! $PYTHON_VERSION =~ ^3\.[0-9]+$ ]]; then
+            error "Error: python version 3.x is required. Detected python version: $PYTHON_VERSION"
+            exit 1
+        fi
+
+        # Output Python version and location
+        PYTHON_PATH=$(command -v python)
+        success "python found. Using python version $PYTHON_VERSION from $PYTHON_PATH"
+
+        # Check and install required Python packages from requirements.txt
+        info "Checking for required Python packages..."
+        if [ -f "$CURRENT_DIR/requirements.txt" ]; then
+            pip install -r $CURRENT_DIR/requirements.txt
+            if [ $? -eq 0 ]; then
+                success "All required Python packages have been installed."
+            else
+                error "Failed to install required Python packages."
+                exit 1
+            fi
+        else
+            error "requirements.txt file not found."
+            exit 1
+        fi
+
+        # Read and install required LaTeX packages
+        LATEX_PACKAGE_FILE="$CURRENT_DIR/packages.list"
+        if [ -f "$LATEX_PACKAGE_FILE" ]; then
+            info "Verifying required LaTeX packages..."
+            check_latex_packages_from_file "$LATEX_PACKAGE_FILE"
+        else
+            error "LaTeX package file not found: $LATEX_PACKAGE_FILE"
+            exit 1
+        fi
+
+        # Notify the user that all dependencies are satisfied
+        success "All required libraries and dependencies have been verified and installed."
+    else
+        info "Skipping dependency checks and installations."
+    fi
+
+    info "Compiling LaTeX to PDF..."
+    cd "$OUTPUT_DIR" && pdflatex "$(basename "$OUTPUT_FILE")"
+
+    if [ $? -eq 0 ]; then
+        success "PDF generation complete. Output saved to ${OUTPUT_FILE%.tex}.pdf"
+    else
+        error "Error during PDF compilation."
+        exit 1
+    fi
 fi
 
 exit 0

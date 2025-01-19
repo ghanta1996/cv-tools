@@ -42,7 +42,7 @@ def format_name(person):
     full_name = f"{first_names} {middle_names} {last_names}".strip()
     return full_name
 
-def load_bibtex(bibtex_path):
+def load_bibtex(bibtex_path, author_name=""):
     """Load BibTeX file and extract publication data."""
     bib_data = parse_file(bibtex_path)
     publications = []
@@ -51,6 +51,9 @@ def load_bibtex(bibtex_path):
         authors_list = []
         for person in entry.persons['author']:
             full_name = format_name(person)
+            # bold the author name if it matches
+            if author_name and full_name == author_name:
+                full_name = f"\\textbf{{{full_name}}}"
             authors_list.append(full_name)
         authors = ', '.join(authors_list)
 
@@ -147,7 +150,7 @@ def main():
     if publications_found:
         # If BibTeX file is provided, load it and update the config
         if args.bibtex:
-                config['publications'] = load_bibtex(args.bibtex)
+                config['publications'] = load_bibtex(args.bibtex, config['heading']['name'])
         else:
             sys.exit("Error: section 'publications' found in the config but BibTeX file not provided.")
     

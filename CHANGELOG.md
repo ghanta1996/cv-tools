@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `--tex-only` option to run.sh command to optionally allow users to only generate a tex file
+- Bold the author name in publications if it matches with heading name
 
 ### Changed
 - Update README to support `--tex-only` option

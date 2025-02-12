@@ -39,7 +39,7 @@ def format_name(person):
     middle_names = ' '.join(person.middle_names) if person.middle_names else ''
     last_names = ' '.join(person.last_names) if person.last_names else ''
     
-    full_name = f"{first_names} {middle_names} {last_names}".strip()
+    full_name = re.sub(r'\s+', ' ', f"{first_names} {middle_names} {last_names}").strip()
     return full_name
 
 def load_bibtex(bibtex_path, author_name=""):

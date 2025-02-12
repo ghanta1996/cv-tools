@@ -440,6 +440,7 @@ Example:
 | Key       | Description                     |
 | --------- | ------------------------------- |
 | `type`    | Must be `talks`.                |
+| `title`   | Title of the talks section.     |
 | `content` | List of talks or presentations. |
 
 **Talk Entry**
@@ -454,6 +455,7 @@ Example:
 
 ```yaml
 - type: talks
+  title: "Invited Talks/Workshops"
   content:
     - name: "``AI in Everyday Life'', Invited talk, Tech Conference 2023, Imaginaria."
       month: "Nov."
@@ -555,6 +557,10 @@ Managing your publications is straightforward with a BibTeX file. The BibTeX fil
 3. **Add `publications` section:** Include the section type called `publications` inside your YAML configuration file.
 
 **Example BibTeX Entry:**
+
+> Note that cv-tools will automatically bold the author's name in publications if it matches the heading name.
+
+> In most cases, BibTeX entries do not include the URL field. cv-tools will add the URL link at the end only if the entry contains a URL field. If you would like to include a link to your publication, please add the URL field to the BibTeX entry manually.
 
 ```bibtex
 @article{doe2024quantum,

@@ -77,7 +77,7 @@ $ docker build -t cv-tools .
 Start a Docker container with the image you just built. This will launch an interactive shell with the virtual environment activated and mount the current cv-tools directory.
 
 ```bash
-$ docker run --rm -it -v $(pwd):/workdir cv-tools
+$ docker run -it -v $(pwd):/workdir cv-tools
 ```
 
 The `-v $(pwd):/workdir` option mounts your local cv-tools directory to the `/workdir` directory inside the container.
@@ -223,20 +223,6 @@ The `links` type includes personal URLs or contact details. They can be highligh
 | `highlight`  | boolean | Whether or not the link should be highlighted and clickable.                       | No       |
 | `show_below` | boolean | Determines if the link should be on the first line (false) or second line (true).  | No       |
 
-Example:
-
-```yaml
-subheading:
-  - type: links
-    content:
-      - name: "https://www.johndoeportfolio.com"
-        highlight: true
-        show_below: false
-      - name: "johndoe@email.com"
-        highlight: false
-        show_below: true
-```
-
 ### Socials
 
 The `socials` type includes links to social media profiles and are rendered as icons. Supported types are:
@@ -257,6 +243,14 @@ Example:
 
 ```yaml
 subheading:
+  - type: links
+    content:
+      - name: "https://www.johndoeportfolio.com"
+        highlight: true
+        show_below: false
+      - name: "johndoe@email.com"
+        highlight: false
+        show_below: true
   - type: socials
     content:
       - type: orcid_id
@@ -266,6 +260,7 @@ subheading:
         url: "https://linkedin.com/in/johndoe"
         show_below: false
 ```
+![subheading-section](docs/img/subheading-section.png)
 
 ## Sections
 
@@ -316,6 +311,7 @@ sections:
         degree: "Associate Degree in Artificial Intelligence"
         supervisor: "Dr. Bob Builder"
 ```
+![education-section](docs/img/education-section.png)
 
 ### 2. Experience
 
@@ -366,6 +362,7 @@ Example:
             - "Designed and implemented autonomous navigation systems for industrial robots."
             - "Collaborated with cross-functional teams to integrate machine learning models into robotic platforms."
 ```
+![experience-section](docs/img/experience-section.png)
 
 ### 3. Bullets
 
@@ -393,7 +390,9 @@ Example:
     - item: "Dean's List (2023, 2022)"
     - item: "Best Paper Award at Tech Innovations Conference (2023)"
     - item: "Outstanding Graduate Award, Fictional University (2024)"
-
+```
+![bullets-section-1](docs/img/bullets-section-1.png)
+```yaml
 - type: bullets
   title: "Professional Activities"
   description: "Served/ing as a reviewer for"
@@ -407,6 +406,7 @@ Example:
         - "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)"
         - "International Conference on Learning Representations (ICLR)"
 ```
+![bullets-section-2](docs/img/bullets-section-2.png)
 
 ### 4. Skills
 
@@ -434,6 +434,7 @@ Example:
     - name: "Tools and Technologies"
       data: "AWS, Docker, Kubernetes, TensorFlow, Git, Jenkins, Linux, Jira"
 ```
+![skills-section](docs/img/skills-section.png)
 
 ### 5. Talks
 
@@ -473,6 +474,7 @@ Example:
       month: "Sep."
       year: "2022"
 ```
+![talks-section](docs/img/talks-section.png)
 
 ### 6. Publications
 
@@ -542,13 +544,16 @@ sections:
         dates: "September 2021 - June 2024"
         degree: "Bachelor of Science in *Computer Science*"
         honors: "**Magna Cum Laude**"
-        thesis_title: "An Exploration of **Quantum Computing** in Virtual Environments"
-        supervisor: "Dr. Alice Wonder"
+        thesis_title: "An Exploration of [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing) in Virtual Environments"
+        supervisor: "Dr. Alice Wonder"        
 ```
+![special-characters-section](docs/img/special-characters-section.png)
 
 # BibTeX Configuration
 
 Managing your publications is straightforward with a BibTeX file. The BibTeX file allows you to maintain a structured list of your publications, which can be automatically formatted and included in your CV.
+
+![publications-section](docs/img/publications-section.png)
 
 ## Steps to Configure BibTeX:
 

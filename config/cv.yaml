@@ -116,6 +116,7 @@ sections:
           - "International Conference on Learning Representations (ICLR)"
 
   - type: talks
+    title: "Invited Talks/Workshops"
     content:
       - name: "``AI in Everyday Life'', Invited talk, Tech Conference 2023, Imaginaria."
         month: "Nov."

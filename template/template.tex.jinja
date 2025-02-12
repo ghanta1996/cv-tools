@@ -69,7 +69,7 @@
     {%-elif section.type == 'skills'-%}
         {{-skills_macros.render(section.content)-}}
     {%-elif section.type == 'talks'-%}
-        {{-talks_macros.render(section.content)-}}
+        {{-talks_macros.render(section.title, section.content)-}}
     {%-elif section.type == 'newpage'-%}
         \newpage
     {%-endif-%}

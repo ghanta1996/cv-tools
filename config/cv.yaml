@@ -1,19 +1,19 @@
 heading:
-  name: "John Doe" # mandatory
+  name: "Sriharsha Ghanta" # mandatory
 
 subheading:
   - type: links
     content:
-      - name: "https://www.johndoeportfolio.com"
-        highlight: true
-        show_below: false
-      - name: "johndoe@email.com"
+      - name: "ghanta1996@gmail.com"
+        highlight: false
+        show_below: true
+      - name: "+65 91747245"
         highlight: false
         show_below: true
   - type: socials
     content:
-      - type: orcid_id
-        url: "0000-0000-0000-0000"
+      - type: github
+        url: "https://github.com/ghanta1996"
         show_below: false
       - type: linkedin
         url: "https://linkedin.com/in/johndoe"
@@ -22,18 +22,18 @@ subheading:
 sections:
   - type: education
     content:
-      - university: "Fictional University"
-        location: "Imaginaria, Wonderland"
-        dates: "September 2021 - June 2024"
-        degree: "Bachelor of Science in *Computer Science*"
-        honors: "**Magna Cum Laude**"
-        thesis_title: "An Exploration of [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing) in Virtual Environments"
-        supervisor: "Dr. Alice Wonder"
-      - university: "Imaginary Institute of Technology"
-        location: "Nowhere City, Utopia"
-        dates: "August 2018 - May 2021"
-        degree: "Associate Degree in Artificial Intelligence"
-        supervisor: "Dr. Bob Builder"
+      - university: "Singapore University of Technology and Design \\& Chang Gung University"
+        location: "Singapore"
+        dates: "September 2019 - June 2021"
+        degree: "Dual Masters, Nano Electronic Engineering Design"
+        honors: "Master of Engineering"
+        thesis_title: "Performance Enhancement of Ship-hull Maintenance Robots"
+        supervisor: "Dr. Mohan Rajesh Elara (SUTD) \\& Dr. Bing-Shu (CGU)"
+      - university: "Amrita University"
+        location: "Kerala, India"
+        dates: "August 2013 - May 2017"
+        degree: "Bachelor of Technology, Electronics and Communication Engineering"
+        supervisor: "Dr. Rajesh Kannan Megalingam"
 
   - type: experience
     content:

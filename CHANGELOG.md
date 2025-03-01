@@ -20,3 +20,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
+- Run shell as default if no arguments are given upon docker run (https://github.com/mlsdpk/cv-tools/pull/1)

@@ -1,3 +1,7 @@
 #!/bin/bash
 source /venv/bin/activate
-exec "$@"
+if [ $# -eq 0 ]; then
+    exec bash
+else
+    exec "$@"
+fi

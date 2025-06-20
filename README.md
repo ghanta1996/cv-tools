@@ -530,6 +530,10 @@ When configuring your YAML files, you might want to include special formatting w
   - To add a small space, use two spaces (e.g., `"Text  2 spaces later"`).
   - To add an "em" space, use four spaces or a tab (e.g., `"Text    4 spaces later"` or `"Text\twith a tab"`).
 
+- **Quotes**
+  - Always use single quotes for quoted phrases (e.g., 'Data Science Club') to avoid issues with double quotes inside YAML.
+  - cv-tools will automatically convert these into proper LaTeX-style double quotes (``like this'') during rendering.
+
 Here’s an example YAML configuration that utilizes these special characters:
 
 ```yaml
@@ -544,7 +548,7 @@ sections:
         dates: "September 2021 - June 2024"
         degree: "Bachelor of Science in *Computer Science*"
         honors: "**Magna Cum Laude**"
-        thesis_title: "An Exploration of [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing) in Virtual Environments"
+        thesis_title: "An Exploration of ['Quantum Computing'](https://en.wikipedia.org/wiki/Quantum_computing) in Virtual Environments"
         supervisor: "Dr. Alice Wonder"        
 ```
 ![special-characters-section](docs/img/special-characters-section.png)

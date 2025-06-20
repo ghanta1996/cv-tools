@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `--tex-only` option to run.sh command to optionally allow users to only generate a tex file
 - Bold the author name in publications if it matches with heading name
 - Add `title` field to talks section (breaking change, old version users need to add this field to show the title for this section)
+- Add decoding of 'quoted text' to LaTeX-style quotes ``quoted text''
 
 ### Changed
 - Update README to support `--tex-only` option
+- Update README to include quotes subsection under special characters
 
 ### Deprecated
 

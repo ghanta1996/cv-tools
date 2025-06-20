@@ -96,6 +96,9 @@ def decode_special_characters(text):
     text = re.sub(r'\t', r'\\quad ', text)     # Replace tab with \quad
     text = re.sub(r' {2}', r'\\ ', text)       # Replace 2 spaces with a small space in LaTeX
 
+    # Convert 'quoted text' to LaTeX-style quotes ``quoted text''
+    text = re.sub(r"(?<!\w)'([^']+)'(?!\w)", r"``\1''", text)
+
     # Add more conversions if needed
 
     return text

@@ -1,6 +1,6 @@
-{% macro render(publications) %}
-    % ====================== Publications Section ====================== %
-    \begin{rSection}{Publications}
+{% macro render(title, publications) %}
+    % ====================== {{ title }} Section ====================== %
+    \begin{rSection}{ {{ title }} }
     \vspace{-1.1em}
     {%-for publication in publications %}
         \item {{ publication.authors }}, \emph{% raw %}{{% endraw %}{{ publication.title }}}, {{ publication.venue }}, {{ publication.year }}{% if publication.link %} \href{% raw %}{{% endraw %}{{ publication.link }}}{[Link]}{% endif %}.

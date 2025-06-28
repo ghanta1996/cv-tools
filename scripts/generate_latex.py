@@ -20,13 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import re
-import yaml
-from jinja2 import Environment, FileSystemLoader
-from pybtex.database import parse_file
 import argparse
 import os
+import re
 import sys
+import yaml
+
+from jinja2 import Environment, FileSystemLoader
+from pathlib import Path
+from pybtex.database import parse_file
+
 
 def load_config(config_path):
     """Load YAML configuration file."""
@@ -137,7 +140,6 @@ def main():
     parser.add_argument('config', type=str, help="Path to the YAML configuration file.")
     parser.add_argument('template', type=str, help="Path to the Jinja2 template file.")
     parser.add_argument('output', type=str, help="Path to save the generated LaTeX file.")
-    parser.add_argument('--bibtex', type=str, help="Path to the BibTeX file for publications.", default=None)
     
     args = parser.parse_args()
     
@@ -147,15 +149,26 @@ def main():
     # Load config
     config = load_config(args.config)
 
+    # resolve YAML path directory
+    config_dir = Path(args.config).resolve().parent
+
     # publications handling
-    # Check if "publications" type is given
-    publications_found = any(_type["type"] == "publications" for _type in config['sections'])
-    if publications_found:
-        # If BibTeX file is provided, load it and update the config
-        if args.bibtex:
-                config['publications'] = load_bibtex(args.bibtex, config['heading']['name'])
-        else:
-            sys.exit("Error: section 'publications' found in the config but BibTeX file not provided.")
+    # Check if one or more "publications" type is given
+    for _type in config['sections']:
+        if _type["type"] == "publications":
+            if "bibfile" not in _type:
+                sys.exit(f"Error: section with title '{_type.get('title', 'Untitled')}' is missing a 'bibfile' entry.")
+
+            # resolve relative path to absolute
+            bibfile_path = Path(_type['bibfile'])
+            if not bibfile_path.is_absolute():
+                bibfile_path = (config_dir / bibfile_path).resolve()
+
+            if not bibfile_path.exists():
+                sys.exit(f"Error: BibTeX file '{bibfile_path}' not found for section '{_type.get('title')}'.")
+
+            # If BibTeX file is found, load it and update the config
+            _type['content'] = load_bibtex(bibfile_path, config['heading']['name'])
     
     # render template, and save output
     output_data = render_template(template_dir, template_file, config)

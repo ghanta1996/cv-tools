@@ -94,6 +94,7 @@ If you prefer to set up the environment manually on your local machine, follow t
 - **Option 1: External LaTeX Renderer**
 
   No LaTeX distribution is needed. You can generate the .tex file and upload it to tools like [Overleaf](https://www.overleaf.com).
+
 - **Option 2: Local LaTeX Setup**
 
   Ensure you have a LaTeX distribution installed, such as [TeX Live](https://www.tug.org/texlive/) (recommended) or [MikTeX](https://miktex.org/).
@@ -131,7 +132,7 @@ To generate a CV, you can use the provided shell script, which offers flexibilit
 
 ## Default CV Generation
 
-Running the script without any options will generate the CV using the default configuration (`cv.yaml`) and publication data (`publications.bib`) located in the `config` directory.
+Running the script without any options will generate the CV using the default configuration (`cv.yaml`) located in the `config` directory.
 
 ```bash
 $ ./run.sh
@@ -158,15 +159,11 @@ Upload both files to an external LaTeX renderer such as [Overleaf](https://www.o
 
 ## Customize the CV Generation
 
-You can customize the CV generation by specifying different configuration and publication files, as well as changing the output file location.
+You can customize the CV generation by specifying different configuration files, as well as changing the output file location.
 
 - **Specify a different YAML configuration file:**
   ```bash
   $ ./run.sh -c path/to/custom_config.yaml
-  ```
-- **Use a different BibTeX file for publications:**
-  ```bash
-  $ ./run.sh -b path/to/custom_publications.bib
   ```
 - **Change the output file location:**
   ```bash
@@ -204,7 +201,7 @@ Example:
 
 ```yaml
 heading:
-  name: "John Doe"  # The name of the CV author
+  name: "John Doe" # The name of the CV author
 ```
 
 ## Subheading
@@ -226,6 +223,7 @@ The `links` type includes personal URLs or contact details. They can be highligh
 ### Socials
 
 The `socials` type includes links to social media profiles and are rendered as icons. Supported types are:
+
 - `orcid_id`
 - `linkedin`
 - `github`
@@ -260,6 +258,7 @@ subheading:
         url: "https://linkedin.com/in/johndoe"
         show_below: false
 ```
+
 ![subheading-section](docs/img/subheading-section.png)
 
 ## Sections
@@ -311,6 +310,7 @@ sections:
         degree: "Associate Degree in Artificial Intelligence"
         supervisor: "Dr. Bob Builder"
 ```
+
 ![education-section](docs/img/education-section.png)
 
 ### 2. Experience
@@ -362,6 +362,7 @@ Example:
             - "Designed and implemented autonomous navigation systems for industrial robots."
             - "Collaborated with cross-functional teams to integrate machine learning models into robotic platforms."
 ```
+
 ![experience-section](docs/img/experience-section.png)
 
 ### 3. Bullets
@@ -391,7 +392,9 @@ Example:
     - item: "Best Paper Award at Tech Innovations Conference (2023)"
     - item: "Outstanding Graduate Award, Fictional University (2024)"
 ```
+
 ![bullets-section-1](docs/img/bullets-section-1.png)
+
 ```yaml
 - type: bullets
   title: "Professional Activities"
@@ -406,6 +409,7 @@ Example:
         - "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)"
         - "International Conference on Learning Representations (ICLR)"
 ```
+
 ![bullets-section-2](docs/img/bullets-section-2.png)
 
 ### 4. Skills
@@ -434,6 +438,7 @@ Example:
     - name: "Tools and Technologies"
       data: "AWS, Docker, Kubernetes, TensorFlow, Git, Jenkins, Linux, Jira"
 ```
+
 ![skills-section](docs/img/skills-section.png)
 
 ### 5. Talks
@@ -474,21 +479,26 @@ Example:
       month: "Sep."
       year: "2022"
 ```
+
 ![talks-section](docs/img/talks-section.png)
 
 ### 6. Publications
 
-The `publications` section type is designed to list all relevant research articles, papers, and academic publications. This section automatically pulls data from a user-specified BibTeX file to render the publications in your CV. For more information on how to configure and link your BibTeX file, refer to the [BibTeX Configuration Section](#bibtex-configuration).
+The `publications` section type is designed to list all relevant research articles, papers, patents and academic publications. This section automatically pulls data from a user-specified BibTeX file to render the publications in your CV. For more information on how to configure and link your BibTeX file, refer to the [BibTeX Configuration Section](#bibtex-configuration).
 
-| Key    | Type   | Description                                                                           | Required |
-| ------ | ------ | ------------------------------------------------------------------------------------- | -------- |
-| `type` | string | Must be `publications`. Specifies that the section will render academic publications. | Yes      |
+| Key       | Type   | Description                                                                           | Required |
+| --------- | ------ | ------------------------------------------------------------------------------------- | -------- |
+| `type`    | string | Must be `publications`. Specifies that the section will render academic publications. | Yes      |
+| `title`   | string | Title of the publications section.                                                    | Yes      |
+| `bibfile` | string | Path to the BibTeX file.                                                              | Yes      |
 
 Example:
 
 ```yaml
 sections:
   - type: publications
+    title: "Publications"
+    bibfile: publications.bib
 ```
 
 ### 7. New Page
@@ -527,6 +537,7 @@ When configuring your YAML files, you might want to include special formatting w
   To insert a line break, use the newline character `\n` (e.g., `"First Line\nSecond Line"`).
 
 - **Horizontal Spacing:**
+
   - To add a small space, use two spaces (e.g., `"Text  2 spaces later"`).
   - To add an "em" space, use four spaces or a tab (e.g., `"Text    4 spaces later"` or `"Text\twith a tab"`).
 
@@ -549,8 +560,9 @@ sections:
         degree: "Bachelor of Science in *Computer Science*"
         honors: "**Magna Cum Laude**"
         thesis_title: "An Exploration of ['Quantum Computing'](https://en.wikipedia.org/wiki/Quantum_computing) in Virtual Environments"
-        supervisor: "Dr. Alice Wonder"        
+        supervisor: "Dr. Alice Wonder"
 ```
+
 ![special-characters-section](docs/img/special-characters-section.png)
 
 # BibTeX Configuration
@@ -561,9 +573,9 @@ Managing your publications is straightforward with a BibTeX file. The BibTeX fil
 
 ## Steps to Configure BibTeX:
 
-1. **Specify Your BibTeX File:** By default, the tool uses a `publications.bib` file located in the `config` directory. However, you can specify a different BibTeX file from any location when running the script.
-2. **Add BibTeX Entries:** Ensure your BibTeX file contains the entries for your publications. The tool will automatically format these entries and include them in your CV.
-3. **Add `publications` section:** Include the section type called `publications` inside your YAML configuration file.
+1. **Create a BibTeX file:** Create a `.bib` file containing entries for your publications. The tool will automatically format these entries and include them in your CV.
+2. **Add a `publications` section:** In your YAML configuration file, add a section with the type `publications`. Use the `title` field to name the section as desired.
+3. **Specify the BibTeX file path:** In the `publications` section, set the `bibfile` field to the path of your BibTeX file.
 
 **Example BibTeX Entry:**
 

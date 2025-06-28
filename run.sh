@@ -24,9 +24,8 @@
 
 # Function to print the usage
 usage() {
-    info "Usage: $0 [-c config_file] [-b bibtex_file] [-o output_file]"
+    info "Usage: $0 [-c config_file] [-o output_file]"
     info "  -c, --config   Specify the configuration YAML file (default: config/cv.yaml)"
-    info "  -b, --bibtex   Specify the BibTeX file (default: config/publications.bib)"
     info "  --tex-only     Only generate the LaTeX (.tex) file without producing a PDF"
     info "  --no-deps      Skip checking and installing dependencies"
     info "  -o, --output   Specify the output LaTeX file (default: output/output.tex)"
@@ -90,7 +89,6 @@ CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Default file paths
 CONFIG_DIR="$CURRENT_DIR/config"
 CONFIG_FILE="$CONFIG_DIR/cv.yaml"
-BIBTEX_FILE="$CONFIG_DIR/publications.bib"
 TEMPLATE_DIR="$CURRENT_DIR/template"
 LATEX_TEMPLATE_FILE="$TEMPLATE_DIR/template.tex.jinja"
 SCRIPT_DIR="$CURRENT_DIR/scripts"
@@ -109,10 +107,6 @@ while [[ "$1" != "" ]]; do
         -c | --config )
             shift
             CONFIG_FILE="$1"
-            ;;
-        -b | --bibtex )
-            shift
-            BIBTEX_FILE="$1"
             ;;
         --tex-only )
             GENERATE_TEX_ONLY=1
@@ -149,7 +143,7 @@ cp "$TEMPLATE_DIR/resume.cls" "$OUTPUT_DIR/"
 
 # Run the Python script with the provided or default paths
 info "Generating LaTeX file..."
-python "$SCRIPT_DIR/generate_latex.py" "$CONFIG_FILE" "$LATEX_TEMPLATE_FILE" "$OUTPUT_FILE" --bibtex "$BIBTEX_FILE"
+python "$SCRIPT_DIR/generate_latex.py" "$CONFIG_FILE" "$LATEX_TEMPLATE_FILE" "$OUTPUT_FILE"
 
 if [ $? -eq 0 ]; then
         success "OK."

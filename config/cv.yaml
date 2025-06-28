@@ -136,3 +136,5 @@ sections:
         year: "2022"
 
   - type: publications
+    title: "Publications"
+    bibfile: publications.bib

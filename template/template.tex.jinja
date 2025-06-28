@@ -70,14 +70,12 @@
         {{-skills_macros.render(section.content)-}}
     {%-elif section.type == 'talks'-%}
         {{-talks_macros.render(section.title, section.content)-}}
+    {%-elif section.type == 'publications'-%}
+        {{-publications_macros.render(section.title, section.content)-}}
     {%-elif section.type == 'newpage'-%}
         \newpage
     {%-endif-%}
   {%-endfor-%}
-{% endif %}
-
-{% if publications %}
-  {{ publications_macros.render(publications) }}
 {% endif %}
 
 \end{document}
